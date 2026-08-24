@@ -8,6 +8,11 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: production
+    # One deploy at a time; every run waits its turn (up to 100 queued) and
+    # nothing is cancelled. `queue: max` requires cancel-in-progress unset/false.
+    concurrency:
+      group: deploy-production
+      queue: max
 
     steps:
       - name: Checkout code
